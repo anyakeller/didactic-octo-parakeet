@@ -8,7 +8,17 @@ def init_db():
     courses = csv.DictReader(open("courses.csv"))
     peeps = csv.DictReader(open("peeps.csv"))
 
-    db.courses.insert_many(courses)
-    db.peeps.insert_many(peeps)
+    studentDict = {}
+
+    for peep in peeps:
+	peep["classes"] = []
+	studentDict[peep["id"]] =  peep
+
+    for course in courses:
+	if course["id"] in studentDict:
+	    studentDict[course["id"]]["classes"].append(course)
+	
+    for student in studentDict:
+        db.students.insert_one(studentDict[student])
 
 init_db()
