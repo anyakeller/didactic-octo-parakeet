@@ -19,7 +19,7 @@ def init_db():
         for course in student["classes"]:
 	    teacherDict[course["code"]]["classes"].append(student["id"])
 	
-    for teacher in studentDict:
+    for teacher in teacherDict:
         db.teachers.insert_one(teacherDict[teacher])
 
 init_db()
